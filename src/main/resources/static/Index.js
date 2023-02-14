@@ -1,6 +1,7 @@
 getAllUsers()
 document.getElementById('userEditButton').addEventListener("click", () => {
-    editUser();})
+    editUser()
+})
 document.getElementById('save-user-tab').addEventListener("click", () => {
     saveUser()
 })
@@ -60,23 +61,23 @@ function getAllUsers() {
         document.querySelector('tbody').innerHTML = " "
 
         users.forEach(user => {
-            const tbody = document.getElementById('admin-tableBody')
-            const tr = document.createElement("tr");
+            let tbody = document.getElementById('admin-tableBody')
+            let tr = document.createElement("tr");
             tr.setAttribute("data-id", user.id);
 
-            const idTd = document.createElement("td");
+            let idTd = document.createElement("td");
             idTd.innerHTML=(user.id);
             tr.append(idTd);
 
-            const nameTd = document.createElement("td");
+            let nameTd = document.createElement("td");
             nameTd.innerHTML=(user.userName);
             tr.append(nameTd);
 
-            const passTd = document.createElement("td");
+            let passTd = document.createElement("td");
             passTd.innerHTML=(user.password);
             tr.append(passTd);
 
-            const roleTd = document.createElement("td")
+            let roleTd = document.createElement("td")
             let x = "";
             let i;
             for (i = 0; i < user.roles.length; i++) {
@@ -86,8 +87,8 @@ function getAllUsers() {
             roleTd.innerHTML= x
             tr.append(roleTd)
 
-            const linkEdit = document.createElement("td")
-            const buttonEdit = document.createElement("button")
+            let linkEdit = document.createElement("td")
+            let buttonEdit = document.createElement("button")
             buttonEdit.setAttribute("class", "btn btn-info")
             buttonEdit.setAttribute("type", "button")
             buttonEdit.setAttribute("data-bs-toggle", "modal")
@@ -99,8 +100,8 @@ function getAllUsers() {
             linkEdit.append(buttonEdit)
             tr.append(linkEdit)
 
-            const linkDelete = document.createElement("td")
-            const buttonDelete = document.createElement("button")
+            let linkDelete = document.createElement("td")
+            let buttonDelete = document.createElement("button")
             buttonDelete.setAttribute("id", user.id)
             buttonDelete.setAttribute("class", "btn btn-danger")
             buttonDelete.setAttribute("type", "button")
@@ -149,9 +150,6 @@ function getUserForEdit(id) {
             document.getElementById('userIdEdit').setAttribute("value", user.id)
             document.getElementById('userNameEdit').setAttribute("value", user.userName)
             document.getElementById('userPasswordEdit').setAttribute("value", user.password)
-            // document.getElementById('userEditButton').addEventListener("click", () => {
-            //     editUser();
-            // })
         })
 
 }
@@ -196,38 +194,3 @@ function editUser() {
 
 }
 
-
-async function getAuthUser() {
-    const response = await fetch("/api/auth", {
-        method: "GET",
-        headers: {"Accept": "application/json"}
-    });
-    if (response.ok === true) {
-        const user = await response.json();
-        const tbody = document.getElementById("user-tableBody")
-        const tr = document.createElement("tr");
-        tr.setAttribute("data-id", user.id);
-
-        const idTd = document.createElement("td");
-        idTd.innerHTML=(user.id);
-        tr.append(idTd);
-
-        const nameTd = document.createElement("td");
-        nameTd.innerHTML=(user.userName);
-        tr.append(nameTd);
-
-        const passTd = document.createElement("td");
-        passTd.innerHTML=(user.password);
-        tr.append(passTd);
-
-        const roleTd = document.createElement("td")
-        let x = "";
-        let i;
-        for (i = 0; i < user.roles.length; i++) {
-            x += user.roles[i].role+" "
-        }
-        roleTd.innerHTML= x
-        tr.append(roleTd)
-        tbody.append(tr)
-    }
-}

@@ -1,9 +1,7 @@
 package ru.romanovdenis.bootstrap.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,9 +26,9 @@ public class UserResource {
     public ResponseEntity<User> findById(@PathVariable Long id) {
         try {
 
-            User user = userService.findById(id).orElseThrow(UserNotFoundException::new);
+            User user = userService.findById(id).orElseThrow();
             return new ResponseEntity<>(user, HttpStatus.OK);
-        } catch (UserNotFoundException e){
+        } catch (RuntimeException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
