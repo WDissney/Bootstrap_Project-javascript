@@ -5,7 +5,7 @@ document.getElementById('userEditButton').addEventListener("click", () => {
 document.getElementById('save-user-tab').addEventListener("click", () => {
     saveUser()
 })
-
+const csrf = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1');
 function saveUser() {
     let getRoles = [];
     let rolesCheckUser = document.querySelector("input[id='role-new-user']")
@@ -37,6 +37,7 @@ function saveUser() {
         body: JSON.stringify(user),
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
+            'X-XSRF-TOKEN': csrf
         },
     }).then((response) => response.json())
         .then(() => {
@@ -107,7 +108,7 @@ function getAllUsers() {
             buttonDelete.setAttribute("type", "button")
             buttonDelete.append("Delete")
             buttonDelete.addEventListener("click", () => {
-                remove(user.id).then(r => console.log(r))
+                remove(user.id)
             });
 
             linkDelete.append(buttonDelete)
@@ -118,8 +119,8 @@ function getAllUsers() {
     });
 }
 
-async function remove(id) {
-    await fetch("/api/users/" + id, {
+ function remove(id) {
+     fetch("/api/users/" + id, {
         method: "DELETE"
     }).then(() => {
         console.log('removed');
@@ -186,6 +187,7 @@ function editUser() {
         body: JSON.stringify(user),
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
+            'X-XSRF-TOKEN': csrf
         },
     }).then((response) => response.json())
         .then((response)=> console.log(response))
